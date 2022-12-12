@@ -1,0 +1,64 @@
+-- top 10 price Tracks is sold (First Plot)
+
+SELECT Artist.Name , sum(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as "price"
+from Artist 
+
+INNER JOIN Album
+on Artist.ArtistId = Album.ArtistId 
+
+INNER JOIN Track
+on Album.AlbumId = Track.AlbumId
+
+INNER JOIN InvoiceLine
+on Track.TrackId = InvoiceLine.TrackId
+
+GROUP by Artist.Name
+ORDER by "price" DESC
+LIMIT 10;
+
+
+
+--top 10 popular songs (Second Plot)
+
+SELECT Genre.Name , sum(Invoice.total) as "price"
+FROM Genre
+
+JOIN Track
+on Genre.GenreId = Track.GenreId
+
+JOIN InvoiceLine
+on Track.TrackId = InvoiceLine.TrackId
+
+JOIN Invoice
+on Invoice.InvoiceId = InvoiceLine.InvoiceId
+
+GROUP by Genre.Name
+ORDER by "price" DESC
+LIMIT 10;
+
+
+--top 10 buying cities for music (Third Plot)
+
+SELECT Customer.City as "cities" , sum(Invoice.Total) as "price"
+FROM Customer
+
+JOIN Invoice
+on Customer.CustomerId = Invoice.CustomerId 
+
+GROUP by "cities"
+ORDER by "price" DESC
+LIMIT 10;
+
+
+-- Top 10 popular Artists (Fourth Plot)
+
+SELECT s.Name , count(b.Title) as "popularity"
+FROM Artist as s
+
+join Album as b
+
+on s.ArtistId = b.ArtistId
+GROUP by s.Name 
+ORDER by "popularity" DESC 
+LIMIT 10;
+
